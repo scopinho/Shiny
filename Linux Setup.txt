@@ -1,0 +1,25 @@
+- Criar instancia Debian na Google Cloud
+- Adicionar regra firewall porta TCP 3838
+- Instalar pacotes Debian (sudo apt-get install install libcurl4-openssl-dev libfontconfig1-dev libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev libxml2-dev libsodium-dev gdebi-core  wget git)
+
+-Atualizar R para 4.2.3]
+    - sudo apt install dirmngr gnupg apt-transport-https ca-certificates software-properties-common
+    - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key '95C0FAF38DB3CCAD0C080A7BDC78B2DDEABC47B7'
+    - Adicionar a linha abaixo no /etc/apt/sours.list (deb http://cloud.r-project.org/bin/linux/debian/bullseye-cran40/)
+    - sudo apt-get upgrade
+    - sudo apt install r-base r-base-dev
+    - OBS: Remover o R anterior (se estiver instalado!): 
+      - sudo apt-get purge r-base* r-recommended r-cran-*
+      - sudo apt autoremove
+    
+
+- Instalar pacotes R (renv e shiny) (Rscript -e 'install.packages(\"renv\")')
+- Baixar Shiny-Server (wget https://download3.rstudio.org/ubuntu-18.04/x86_64/shiny-server-1.5.20.1002-amd64.deb)
+- Instalar Shiny-Server (sudo gdebi shiny-server-1.5.20.1002-amd64.deb)
+- Adicionar para iniciar automaticamente (sudo systemctl enable shiny-server)
+
+(Mais info: 
+ - https://github.com/paeselhz/RStudio-Shiny-Server-on-GCP
+ - https://posit.co/download/shiny-server/
+ - https://docs.posit.co/shiny-server/
+ - https://linux.how2shout.com/install-the-latest-r-programming-language-version-on-debian-11-bullseye/
