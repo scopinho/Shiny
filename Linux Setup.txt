@@ -18,6 +18,16 @@
 - Instalar Shiny-Server (sudo gdebi shiny-server-1.5.20.1002-amd64.deb)
 - Adicionar para iniciar automaticamente (sudo systemctl enable shiny-server)
 
+
+- Copiar os arquivos pro usuario shiny (sudo passwd shiny ... sudo su - shiny)
+# approach two
+mkdir -p ~/renv
+cp .renv.lock pro home do susuario shiny
+instalar o renv pro R do susuario shiny
+renv::restore (sem activate!!!!)
+
+OBS: Lembrar de dar as permissoes para criacao de arquivos pro usuario shiny criar SQLite DB, etc
+
 (Mais info: 
  - https://github.com/paeselhz/RStudio-Shiny-Server-on-GCP
  - https://posit.co/download/shiny-server/
