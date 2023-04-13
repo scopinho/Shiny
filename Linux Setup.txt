@@ -5,7 +5,7 @@
 -Atualizar R para 4.2.3]
     - sudo apt install dirmngr gnupg apt-transport-https ca-certificates software-properties-common
     - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key '95C0FAF38DB3CCAD0C080A7BDC78B2DDEABC47B7'
-    - Adicionar a linha abaixo no /etc/apt/sours.list (deb http://cloud.r-project.org/bin/linux/debian/bullseye-cran40/)
+    - sudo add-apt-repository 'deb http://cloud.r-project.org/bin/linux/debian bullseye-cran40/'
     - sudo apt-get upgrade
     - sudo apt install r-base r-base-dev
     - OBS: Remover o R anterior (se estiver instalado!): 
