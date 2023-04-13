@@ -1475,6 +1475,26 @@
       ],
       "Hash": "1ab6223d3670fac7143202cb6a2d43d5"
     },
+    "thematic": {
+      "Package": "thematic",
+      "Version": "0.1.2.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "farver",
+        "ggplot2",
+        "grDevices",
+        "graphics",
+        "grid",
+        "rappdirs",
+        "rlang",
+        "rstudioapi",
+        "scales",
+        "utils"
+      ],
+      "Hash": "77ad63ad98b3434a01284dbf1125e404"
+    },
     "tibble": {
       "Package": "tibble",
       "Version": "3.2.1",

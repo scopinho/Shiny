@@ -75,7 +75,7 @@ ui <- navbarPage(
 server <- function(input, output, session) {
   # Seletor de temas
   ###bslib::bs_themer()
-  bs_theme_update(theme, font_scale = NULL,bootswatch = "united")
+  bslib::bs_theme_update(theme, font_scale = NULL,bootswatch = "united")
 
 
   thematic::thematic_shiny()
