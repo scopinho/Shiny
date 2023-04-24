@@ -26,6 +26,15 @@ cp .renv.lock pro home do susuario shiny
 instalar o renv pro R do susuario shiny
 renv::restore (sem activate!!!!)
 
+- Criar um novo disco no painel de controle do GCP e montar no Linux:
+sudo lsblk
+sudo mkfs.ext4 -m 0 -E lazy_itable_init=0,lazy_journal_init=0,discard /dev/sdb
+sudo mkdir -p /mnt/disks/disk1
+sudo mount -o discard,defaults /dev/sdb /mnt/disks/disk1
+sudo chmod a+w /mnt/disks/disk1
+
+More info: https://cloud.google.com/compute/docs/instances/transfer-files#transferbrowser
+
 OBS: Lembrar de dar as permissoes para criacao de arquivos pro usuario shiny criar SQLite DB, etc
 
 (Mais info: 
