@@ -2,15 +2,11 @@ library(shiny)
 library(dplyr)
 library(lubridate)
 library(DBI)
+library(duckdb)
 library(ggplot2)
-library(RSQLite)
+#library(RSQLite)
 
-if (file.exists("my_db_file")) {
-  db <- dbConnect(SQLite(), "my_db_file")
-} else {
-  db <- dbConnect(SQLite(), "my_db_file")
-  dbCreateTable(db, "sessionids", c(user = "TEXT", sessionid = "TEXT", login_time = "TEXT"))
-}
+db <- DBI::dbConnect(duckdb::duckdb(), dbdir = "duckdb", read_only = FALSE)
 
 cookie_expiry <- 7
 
@@ -66,10 +62,10 @@ data_tab <- tabPanel(
 theme <- bslib::bs_theme(version = 5)
 
 ui <- navbarPage(
-  theme = theme,
   title = "Dashboard Exemplo",
-  id = "tabs", # must give id here to add/remove tabs in server
+  id = "tabs",
   collapsible = TRUE,
+  theme = theme,
   login_tab
 )
 
