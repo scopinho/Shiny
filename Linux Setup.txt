@@ -1,6 +1,6 @@
 - Criar instancia Debian na Google Cloud
 - Adicionar regra firewall porta TCP 3838
-- Instalar pacotes Debian (sudo apt-get install install libcurl4-openssl-dev libfontconfig1-dev libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev libxml2-dev libsodium-dev gdebi-core libv8-dev wget git)
+- Instalar pacotes Debian (sudo apt-get install install libcurl4-openssl-dev libfontconfig1-dev libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev libxml2-dev libsodium-dev gdebi-core libv8-dev cmake wget git)
 
 -Atualizar R para 4.2.3]
     - sudo apt install dirmngr gnupg apt-transport-https ca-certificates software-properties-common
