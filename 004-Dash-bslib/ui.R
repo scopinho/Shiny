@@ -88,11 +88,7 @@ ui <- grid_page(
       )
     )
   ),
-  grid_card(
-    area = "value_box",
-    card_body_fill(boxes)
-    #card_footer(textOutput(outputId = "textOutput"))
-  )
+  grid_card(area = "value_box", card_body_fill(boxes))
 )
 
 

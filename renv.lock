@@ -8,6 +8,11 @@
       }
     ]
   },
+  "Python": {
+    "Version": "3.10.6",
+    "Type": "virtualenv",
+    "Name": "./env"
+  },
   "Packages": {
     "DBI": {
       "Package": "DBI",
@@ -520,6 +525,19 @@
         "vctrs"
       ],
       "Hash": "54ed3ea01b11e81a86544faaecfef8e2"
+    },
+    "duckdb": {
+      "Package": "duckdb",
+      "Version": "0.7.1-1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "DBI",
+        "R",
+        "methods",
+        "utils"
+      ],
+      "Hash": "87a32b8f6439136df276da385ebd4ab0"
     },
     "ellipsis": {
       "Package": "ellipsis",
@@ -1599,6 +1617,34 @@
         "shiny"
       ],
       "Hash": "802e4786b353a4bb27116957558548d5"
+    },
+    "shinyuieditor": {
+      "Package": "shinyuieditor",
+      "Version": "0.4.3",
+      "Source": "GitHub",
+      "Remotes": "rstudio/gridlayout, rstudio/bslib",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "shinyuieditor",
+      "RemoteUsername": "rstudio",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "4ab16741ee6cd449cbb456ba44b7bd6ee77b4426",
+      "Requirements": [
+        "DT",
+        "bsicons",
+        "callr",
+        "crayon",
+        "fs",
+        "gridlayout",
+        "httpuv",
+        "jsonlite",
+        "later",
+        "plotly",
+        "rlang",
+        "shiny",
+        "utils"
+      ],
+      "Hash": "353844ef06245d0814a8488dbb655bf0"
     },
     "sodium": {
       "Package": "sodium",

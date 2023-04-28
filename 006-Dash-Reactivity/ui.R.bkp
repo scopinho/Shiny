@@ -1,0 +1,28 @@
+library (shiny)
+library (bslib)
+library (shinyuieditor)
+library (gridlayout)
+library (htmlwidgets)
+library (htmltools)
+
+card1 <- card(
+  card_header("Nothing much here"),
+  "This is it."
+)
+
+card2 <- card(
+  card_header("Nothing much here"),
+  "This is it."
+)
+card3 <- card(
+  full_screen = TRUE,
+  card_header("Filling content"),
+  card_body(
+    class = "p-0",
+    shiny::plotOutput("p")
+  )
+)
+
+ui <- grid_page(theme = bs_theme(version = 5))
+
+

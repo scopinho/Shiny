@@ -18,6 +18,25 @@
 - Instalar Shiny-Server (sudo gdebi shiny-server-1.5.20.1002-amd64.deb)
 - Adicionar para iniciar automaticamente (sudo systemctl enable shiny-server)
 
+##### IMPORTANTE para instalar o arrow!!!!
+
+sudo apt update
+sudo apt install -y -V ca-certificates lsb-release wget
+wget https://apache.jfrog.io/artifactory/arrow/$(lsb_release --id --short | tr 'A-Z' 'a-z')/apache-arrow-apt-source-latest-$(lsb_release --codename --short).deb
+sudo apt install -y -V ./apache-arrow-apt-source-latest-$(lsb_release --codename --short).deb
+sudo apt update
+sudo apt install -y -V libarrow-dev # For C++
+sudo apt install -y -V libarrow-glib-dev # For GLib (C)
+sudo apt install -y -V libarrow-dataset-dev # For Apache Arrow Dataset C++
+sudo apt install -y -V libarrow-dataset-glib-dev # For Apache Arrow Dataset GLib (C)
+sudo apt install -y -V libarrow-flight-dev # For Apache Arrow Flight C++
+sudo apt install -y -V libarrow-flight-glib-dev
+sudo apt install -y -V libplasma-dev # For Plasma C++
+sudo apt install -y -V libplasma-glib-dev # For Plasma GLib (C)
+sudo apt install -y -V libparquet-dev # For Apache Parquet C++
+sudo apt install -y -V libparquet-glib-dev # For Apache Parquet GLib (C)
+
+#####
 
 - Copiar os arquivos pro usuario shiny (sudo passwd shiny ... sudo su - shiny)
 # approach two
@@ -42,3 +61,69 @@ OBS: Lembrar de dar as permissoes para criacao de arquivos pro usuario shiny cri
  - https://posit.co/download/shiny-server/
  - https://docs.posit.co/shiny-server/
  - https://linux.how2shout.com/install-the-latest-r-programming-language-version-on-debian-11-bullseye/
+ - https://unix.stackexchange.com/questions/598520/client-loop-send-disconnect-broken-pipe-for-chroot-sftp-user-with-correct-p
+ 
+ ###########
+ SFTP Server
+ 
+ sudo groupadd sftpusers
+
+sudo mkdir /var/sftp
+sudo mkdir /var/sftp/myuser01
+sudo chown -R root:root /var/sftp
+chmod -R 755 /var/sftp
+
+sudo adduser -h /var/sftp/myuser01 myuser01
+sudo usermod -a -G sftpusers myuser01
+
+In your example, /var/sftp and /var/sftp/usero1 needs to be owned by root and not writable by any other user
+
+your issue is likely that you did this:
+
+chown myuser01:myuser01 /var/sftp/myuser01
+instead it should be owned by root:root and chmod 755
+
+sudo mkdir /var/sftp
+sudo mkdir /var/sftp/myuser01
+sudo chown -R root:root /var/sftp
+chmod -R 755 /var/sftp
+Now that the user directory is owned by root:root and not writable by others, your user should be able to be logged into it and chrooted via the sshd internal-sftp
+
+ForceCommand internal-sftp
+ChrootDirectory /var/sftp/
+So, to put it all together:
+
+sudo groupadd sftpusers
+
+sudo ln -s /var/sftp /mnt/disks/disk1/SFTP
+
+sudo mkdir /var/sftp/myuser01
+sudo chown -R root:root /var/sftp
+sudo chmod -R 755 /var/sftp
+
+sudo adduser -h /var/sftp/myuser01 myuser01
+sudo usermod -a -G sftpusers myuser01
+
+
+edit your /etc/ssh/sshd_config and add this to the end:
+
+Match Group sftpusers
+      ForceCommand internal-sftp
+      ChrootDirectory /var/sftp/%u
+      PermitTunnel no
+      AllowAgentForwarding no
+      AllowTcpForwarding no
+      X11Forwarding no
+
+
+Subsystem    sftp    internal-sftp
+
+PasswordAuthentication yes
+ChallengeResponseAuthentication no
+
+
+sudo systemctl restart sshd
+ 
+ 
+ 
+ ###########
