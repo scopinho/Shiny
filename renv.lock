@@ -121,6 +121,17 @@
       ],
       "Hash": "e749cae40fa9ef469b6050959517453c"
     },
+    "RcppTOML": {
+      "Package": "RcppTOML",
+      "Version": "0.2.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "Rcpp"
+      ],
+      "Hash": "c232938949fcd8126034419cc529333a"
+    },
     "V8": {
       "Package": "V8",
       "Version": "4.3.0",
@@ -834,6 +845,16 @@
       ],
       "Hash": "8b331e659e67d757db0fcc28e689c501"
     },
+    "here": {
+      "Package": "here",
+      "Version": "1.0.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "rprojroot"
+      ],
+      "Hash": "24b224366f9c2e7534d2344d10d59211"
+    },
     "highr": {
       "Package": "highr",
       "Version": "0.10",
@@ -1242,6 +1263,16 @@
       ],
       "Hash": "3781cf6971c6467fa842a63725bbee9e"
     },
+    "png": {
+      "Package": "png",
+      "Version": "0.1-8",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "bd54ba8a0a5faded999a7aab6e46b374"
+    },
     "prettyunits": {
       "Package": "prettyunits",
       "Version": "1.1.1",
@@ -1449,6 +1480,27 @@
       ],
       "Hash": "d66fe009d4c20b7ab1927eb405db9ee2"
     },
+    "reticulate": {
+      "Package": "reticulate",
+      "Version": "1.28",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "Matrix",
+        "R",
+        "Rcpp",
+        "RcppTOML",
+        "graphics",
+        "here",
+        "jsonlite",
+        "methods",
+        "png",
+        "rappdirs",
+        "utils",
+        "withr"
+      ],
+      "Hash": "86c441bf33e1d608db773cb94b848458"
+    },
     "rlang": {
       "Package": "rlang",
       "Version": "1.1.0",
@@ -1483,6 +1535,16 @@
         "yaml"
       ],
       "Hash": "493df4ae51e2e984952ea4d5c75786a3"
+    },
+    "rprojroot": {
+      "Package": "rprojroot",
+      "Version": "2.0.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "1de7ab598047a87bba48434ba35d497d"
     },
     "rstudioapi": {
       "Package": "rstudioapi",
@@ -1605,6 +1667,20 @@
       ],
       "Hash": "44eb8cee6d3f7a84ea56008ffecb209b"
     },
+    "shinycssloaders": {
+      "Package": "shinycssloaders",
+      "Version": "1.0.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "digest",
+        "glue",
+        "grDevices",
+        "shiny"
+      ],
+      "Hash": "f39bb3c44a9b496723ec7e86f9a771d8"
+    },
     "shinyjs": {
       "Package": "shinyjs",
       "Version": "2.1.0",
@@ -1617,34 +1693,6 @@
         "shiny"
       ],
       "Hash": "802e4786b353a4bb27116957558548d5"
-    },
-    "shinyuieditor": {
-      "Package": "shinyuieditor",
-      "Version": "0.4.3",
-      "Source": "GitHub",
-      "Remotes": "rstudio/gridlayout, rstudio/bslib",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteRepo": "shinyuieditor",
-      "RemoteUsername": "rstudio",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "4ab16741ee6cd449cbb456ba44b7bd6ee77b4426",
-      "Requirements": [
-        "DT",
-        "bsicons",
-        "callr",
-        "crayon",
-        "fs",
-        "gridlayout",
-        "httpuv",
-        "jsonlite",
-        "later",
-        "plotly",
-        "rlang",
-        "shiny",
-        "utils"
-      ],
-      "Hash": "353844ef06245d0814a8488dbb655bf0"
     },
     "sodium": {
       "Package": "sodium",

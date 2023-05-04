@@ -20,6 +20,7 @@ server <- function(input, output, session) {
       output$textOutput <- renderTable (get_predict(text2()))
   #     output$textOutput <- renderText(text2())
   #     # updateTextAreaInput(session, "myTextInput", value = "New text")
+      
    })
   
   #outputs <- classifier(text)
@@ -27,7 +28,7 @@ server <- function(input, output, session) {
   #  pluck(1) %>% 
   #  as_tibble()
    
-  token_classification_Server("tab2")
+  token_classification_Server("tab2", dataset)
   
 }
 

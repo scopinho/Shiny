@@ -1,9 +1,8 @@
 
-
 # UI ----------------------------------------------------------------------
-ui <- navbarPage(
+ui <-  navbarPage(
   title = "AI Demo",
-  selected = "Text Classification",
+  selected = "Token Classification",
   collapsible = TRUE,
   theme = bslib::bs_theme(),
 
@@ -12,7 +11,7 @@ ui <- navbarPage(
     title = "Text Classification",
     grid_container(
       layout = c(
-        "num_chicks area1"
+        "aa1 area1"
       ),
       row_sizes = c(
         "1fr"
@@ -23,7 +22,7 @@ ui <- navbarPage(
       ),
       gap_size = "10px",
       grid_card(
-        area = "num_chicks",
+        area = "aa1",
         card_header("Review"),
         card_body_fill(
           textAreaInput(
@@ -48,7 +47,8 @@ ui <- navbarPage(
 ## TAB-2 -------------------------------------------------------------------
   tabPanel(
     title = "Token Classification",
-    token_classification_UI("tab2")
-  )
+    token_classification_UI("tab2", dataset)
+  ),
+
 )
 
