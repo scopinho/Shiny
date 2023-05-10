@@ -36,6 +36,11 @@ sudo apt install -y -V libplasma-glib-dev # For Plasma GLib (C)
 sudo apt install -y -V libparquet-dev # For Apache Parquet C++
 sudo apt install -y -V libparquet-glib-dev # For Apache Parquet GLib (C)
 
+### If the install.packages(arrow) failed!!!!
+
+Sys.setenv("NOT_CRAN" = "true", "LIBARROW_BUILD" = FALSE, "ARROW_R_DEV" = TRUE)
+install.packages("arrow", quit=FALSE, verbose=TRUE)
+
 #####Instalando o app
 
 - Copiar os arquivos pro usuario shiny (sudo passwd shiny ... sudo su - shiny)
