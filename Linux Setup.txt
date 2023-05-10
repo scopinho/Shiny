@@ -36,13 +36,14 @@ sudo apt install -y -V libplasma-glib-dev # For Plasma GLib (C)
 sudo apt install -y -V libparquet-dev # For Apache Parquet C++
 sudo apt install -y -V libparquet-glib-dev # For Apache Parquet GLib (C)
 
-#####
+#####Instalando o app
 
 - Copiar os arquivos pro usuario shiny (sudo passwd shiny ... sudo su - shiny)
 # approach two
 mkdir -p ~/renv
 cp .renv.lock pro home do susuario shiny
 instalar o renv pro R do susuario shiny
+Sys.setenv("ARROW_R_DEV"=TRUE)
 renv::restore (sem activate!!!!)
 
 - Criar um novo disco no painel de controle do GCP e montar no Linux:
