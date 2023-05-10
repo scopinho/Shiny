@@ -124,6 +124,10 @@ ChallengeResponseAuthentication no
 
 sudo systemctl restart sshd
  
+ ### Install NGINX
  
+ Follow the instructions here:
+ 
+ https://www.simoncoulombe.com/2018/05/protected_free_shiny/
  
  ###########
