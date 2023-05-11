@@ -15,6 +15,17 @@ VM and latest R and initial packages
     - sudo apt update
     - sudo apt upgrade
     
+ - Caso não tenha muita memoria, aumente o swap:
+ 
+ cd /
+sudo dd if=/dev/zero of=swapfile bs=1M count=3000
+sudo mkswap swapfile
+sudo swapon swapfile
+sudo vi etc/fstab e adicione a linha:
+/swapfile none swap sw 0 0
+
+cat /proc/meminfo
+    
     - OBS: Se precisar remover o R anterior (se estiver instalado!): 
       - sudo apt-get purge r-base* r-recommended r-cran-*
       - sudo apt autoremove
