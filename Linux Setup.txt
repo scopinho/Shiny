@@ -33,6 +33,7 @@ cat /proc/meminfo
 - Instalar pacotes R (renv) ( sudo Rscript -e "install.packages(\"renv\")" )
 - Baixar Shiny-Server (wget https://download3.rstudio.org/ubuntu-18.04/x86_64/shiny-server-1.5.20.1002-amd64.deb)
 - Instalar Shiny-Server (sudo gdebi shiny-server-1.5.20.1002-amd64.deb)
+- sudo chmod 777 -R /srv/shiny-server/
 - Adicionar para iniciar automaticamente (sudo systemctl enable shiny-server)
 
  **** IMPORTANTE para instalar o arrow !!!!
@@ -148,7 +149,7 @@ Install NGINX Web Server
 ##########################################
  Setup VM External IP and DNS Record before this!
  
- sudo apt-get install nginx
+sudo apt-get install nginx
 sudo apt-get install apache2-utils
 sudo service nginx stop
 
@@ -209,6 +210,7 @@ sudo htpasswd -c /etc/nginx/.htpasswd exampleuser
 sudo service nginx start
 
 sudo systemctl stop shiny-server
+
 sudo vi /etc/shiny-server/shiny-server.conf
 
 server{
@@ -220,8 +222,6 @@ server{
     directory_index on;
     }
 }
-
-
 
 sudo systemctl start shiny-server
 
