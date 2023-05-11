@@ -1,8 +1,12 @@
+##########################################
+VM and latest R and initial packages
+##########################################
+
 - Criar instancia Debian na Google Cloud
 - Adicionar regra firewall porta TCP 3838
 - Instalar pacotes Debian (sudo apt-get install install libcurl4-openssl-dev libfontconfig1-dev libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev libxml2-dev libsodium-dev gdebi-core libv8-dev cmake wget git)
 
--Atualizar R para 4.2.3]
+-Atualizar R para 4.3.0
     - sudo apt install dirmngr gnupg apt-transport-https ca-certificates software-properties-common
     - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key '95C0FAF38DB3CCAD0C080A7BDC78B2DDEABC47B7'
     - sudo add-apt-repository 'deb http://cloud.r-project.org/bin/linux/debian bullseye-cran40/'
@@ -20,7 +24,7 @@
 - Instalar Shiny-Server (sudo gdebi shiny-server-1.5.20.1002-amd64.deb)
 - Adicionar para iniciar automaticamente (sudo systemctl enable shiny-server)
 
-##### IMPORTANTE para instalar o arrow!!!!
+ **** IMPORTANTE para instalar o arrow !!!!
 
 sudo apt update
 sudo apt install -y -V ca-certificates lsb-release wget
@@ -39,22 +43,14 @@ sudo apt install -y -V libplasma-glib-dev # For Plasma GLib (C)
 sudo apt install -y -V libparquet-dev # For Apache Parquet C++
 sudo apt install -y -V libparquet-glib-dev # For Apache Parquet GLib (C)
 
-### If the install.packages(arrow) failed!!!!
-
 Entre no R com o SUDO (sudo R) e digite:
 
 Sys.setenv("NOT_CRAN" = "true", "ARROW_R_DEV" = TRUE)
 install.packages("arrow", quit=FALSE, verbose=TRUE)
 
-#####Instalando o app
-
-- Copiar os arquivos pro usuario shiny (sudo passwd shiny ... sudo su - shiny)
-# approach two
-mkdir -p ~/renv
-cp .renv.lock pro home do susuario shiny
-instalar o renv pro R do susuario shiny
-Sys.setenv("ARROW_R_DEV"=TRUE)
-renv::restore (sem activate!!!!)
+##########################################
+Setup extra Disk (if needed)
+##########################################
 
 - Criar um novo disco no painel de controle do GCP e montar no Linux:
 sudo lsblk
@@ -74,8 +70,9 @@ OBS: Lembrar de dar as permissoes para criacao de arquivos pro usuario shiny cri
  - https://linux.how2shout.com/install-the-latest-r-programming-language-version-on-debian-11-bullseye/
  - https://unix.stackexchange.com/questions/598520/client-loop-send-disconnect-broken-pipe-for-chroot-sftp-user-with-correct-p
  
- ###########
- SFTP Server
+##########################################
+ SFTP Server (if needed)
+##########################################
  
  sudo groupadd sftpusers
 
@@ -134,11 +131,127 @@ ChallengeResponseAuthentication no
 
 
 sudo systemctl restart sshd
+
+##########################################
+Install NGINX Web Server
+##########################################
+ Setup VM External IP and DNS Record before this!
  
- ### Install NGINX
+ sudo apt-get install nginx
+sudo apt-get install apache2-utils
+sudo service nginx stop
+
+sudo vi /etc/nginx/nginx.conf
+
+Under http { .... } session, add:
+
+ server {
+    listen 80;
+
+
+    location /rstudio/ {
+      rewrite ^/rstudio/(.*)$ /$1 break;
+      proxy_pass http://localhost:8787;
+      proxy_redirect http://localhost:8787/ $scheme://$host/rstudio/;
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection $connection_upgrade;
+      proxy_read_timeout 20d;
+      auth_basic "Username and Password are required"; 
+      auth_basic_user_file /etc/nginx/.htpasswd;
+    }
+
+
+
+    location /shiny/ {
+      rewrite ^/shiny/(.*)$ /$1 break;
+      proxy_pass http://localhost:3838;
+      proxy_redirect http://localhost:3838/ $scheme://$host/shiny/;
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection $connection_upgrade;
+      proxy_read_timeout 20d;
+      proxy_buffering off;
+      auth_basic "Username and Password are required"; 
+      auth_basic_user_file /etc/nginx/.htpasswd;
+    }
+    
+    location /shiny-admin/ {
+      rewrite ^/shiny-admin/(.*)$ /$1 break;
+      proxy_pass http://localhost:4151;
+      proxy_redirect http://localhost:4151/ $scheme://$host/shiny-admin/;
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection $connection_upgrade;
+      proxy_read_timeout 20d;
+      proxy_buffering off;
+      auth_basic "Username and Password are required"; 
+      auth_basic_user_file /etc/nginx/.htpasswd;
+    }    
+  } 
  
- Follow the instructions here:
+Comment out all of this file:
+sudo vi /etc/nginx/sites-available/default
  
- https://www.simoncoulombe.com/2018/05/protected_free_shiny/
+ cd /etc/nginx
+sudo htpasswd -c /etc/nginx/.htpasswd exampleuser
+sudo service nginx start
+
+sudo systemctl stop shiny-server
+sudo vi /etc/shiny-server/shiny-server.conf
+
+server{
+    listen 3838 127.0.0.1;
+    
+    location / {
+    site_dir /srv/shiny-server;
+    log_dir /var/log/shiny-server;
+    directory_index on;
+    }
+}
+
+
+
+sudo systemctl start shiny-server
+
  
- ###########
+ 
+ *** FROM: https://www.simoncoulombe.com/2018/05/protected_free_shiny/
+ 
+
+##########################################
+ Creating a new app/package (On Dev machine)
+##########################################
+ 
+- Create repo in github
+- Copy repo SSH URL
+- Create a RStudio project using version control and paste URL
+- Test git commit/pull
+- Activate renv (Tools/Project Options/Environment)
+- Install packages (usethis, pkgload, devtools, shiny, tidyverse, arrow, etc)
+- Create R folder (From Mastering Shiny book - Packages chapter)
+- Create app.R with a function wrapping all code (i.e myApp) to be called by the package
+- Restart RStudio session 
+- Use CTLR+SHIFT+L to load all pkgs
+- Create description file usethis::use_description()
+- Create and app.R in the root folder to call the main function with: pkgload::load_all(".") myApp()
+- Add the app.R in the buildignore (usethis::use_build_ignore("app.R"))
+- Add shiny, pkgload to add dependencias in your DESCRIPTION file using usethis::use_package("shiny")
+- USe #' @import shiny in the R/app.R instead of library ("pkgs")
+- Create data (usethis::use_data(stones) and inst/extdata for internal data and external datasets (usethis::use_data(stones) or read.csv(system.file("exdata", "mydata.csv", package = "myApp")))
+- Change app.R to use the pkg (myApp::myApp())
+- Add #' @export myApp to the wrapping function and Run devtools::document() 
+- Add app.R in the .Rbuildignore (usethis::use_build_ignore("app.R"))
+
+##########################################
+Instalando o app
+##########################################
+
+- Copiar os arquivos pro usuario shiny (sudo passwd shiny ... sudo su - shiny)
+# approach two
+mkdir -p ~/renv
+cp .renv.lock pro home do susuario shiny
+instalar o renv pro R do susuario shiny
+Sys.setenv("ARROW_R_DEV"=TRUE)
+renv::restore (sem activate!!!!)
+
