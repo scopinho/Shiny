@@ -8,12 +8,14 @@
     - sudo add-apt-repository 'deb http://cloud.r-project.org/bin/linux/debian bullseye-cran40/'
     - sudo apt-get upgrade
     - sudo apt install r-base r-base-dev
-    - OBS: Remover o R anterior (se estiver instalado!): 
+    - sudo apt update
+    - sudo apt upgrade
+    
+    - OBS: Se precisar remover o R anterior (se estiver instalado!): 
       - sudo apt-get purge r-base* r-recommended r-cran-*
       - sudo apt autoremove
     
-
-- Instalar pacotes R (renv e shiny) (Rscript -e 'install.packages(\"renv\")')
+- Instalar pacotes R (renv) ( sudo Rscript -e "install.packages(\"renv\")" )
 - Baixar Shiny-Server (wget https://download3.rstudio.org/ubuntu-18.04/x86_64/shiny-server-1.5.20.1002-amd64.deb)
 - Instalar Shiny-Server (sudo gdebi shiny-server-1.5.20.1002-amd64.deb)
 - Adicionar para iniciar automaticamente (sudo systemctl enable shiny-server)
@@ -25,6 +27,7 @@ sudo apt install -y -V ca-certificates lsb-release wget
 wget https://apache.jfrog.io/artifactory/arrow/$(lsb_release --id --short | tr 'A-Z' 'a-z')/apache-arrow-apt-source-latest-$(lsb_release --codename --short).deb
 sudo apt install -y -V ./apache-arrow-apt-source-latest-$(lsb_release --codename --short).deb
 sudo apt update
+
 sudo apt install -y -V libarrow-dev # For C++
 sudo apt install -y -V libarrow-glib-dev # For GLib (C)
 sudo apt install -y -V libarrow-dataset-dev # For Apache Arrow Dataset C++
@@ -38,7 +41,9 @@ sudo apt install -y -V libparquet-glib-dev # For Apache Parquet GLib (C)
 
 ### If the install.packages(arrow) failed!!!!
 
-Sys.setenv("NOT_CRAN" = "true", "LIBARROW_BUILD" = FALSE, "ARROW_R_DEV" = TRUE)
+Entre no R com o SUDO (sudo R) e digite:
+
+Sys.setenv("NOT_CRAN" = "true", "ARROW_R_DEV" = TRUE)
 install.packages("arrow", quit=FALSE, verbose=TRUE)
 
 #####Instalando o app
