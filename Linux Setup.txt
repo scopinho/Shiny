@@ -232,12 +232,12 @@ map $http_upgrade $connection_upgrade {
     }    
   } 
  
-Comment out all of this file:
+Comentar todas as linhas do arquivo:
 sudo vi /etc/nginx/sites-available/default
  
  cd /etc/nginx
 sudo htpasswd -c /etc/nginx/.htpasswd exampleuser
-sudo systemctl stop ngiyx 
+sudo systemctl start ngiyx 
 sudo systemctl enable ngiyx (Para iniciar automaticamente 
 
 sudo systemctl stop shiny-server
@@ -256,7 +256,11 @@ server{
 
 sudo systemctl start shiny-server
 
- 
+sudo passwd shiny (coloque uma senha prousuario shiny)
+su - shiny
+crie um diretorio de teste (ie. /srv/shiny-server/teste_shiny)
+entre no R e dê um renv:init() e reinicie a sessao do R
+Instale o pacote shiny e crie um app de teste 
  
  *** FROM: https://www.simoncoulombe.com/2018/05/protected_free_shiny/
  
