@@ -4,9 +4,11 @@ VM and latest R and initial packages
 
 - Criar instancia Debian na Google Cloud
 - Adicionar regra firewall porta TCP 3838
-- Instalar pacotes Debian (sudo apt-get install install libcurl4-openssl-dev libfontconfig1-dev libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev libxml2-dev libsodium-dev gdebi-core libv8-dev cmake wget git)
+- sudo apt update
+- sudo apt upgrade
+- Instalar pacotes Debian (sudo apt-get install libcurl4-openssl-dev libfontconfig1-dev libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev libxml2-dev libsodium-dev gdebi-core libv8-dev cmake wget git)
 
--Atualizar R para 4.3.0
+-Instalar o R 
     - sudo apt install dirmngr gnupg apt-transport-https ca-certificates software-properties-common
     - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key '95C0FAF38DB3CCAD0C080A7BDC78B2DDEABC47B7'
     - sudo add-apt-repository 'deb http://cloud.r-project.org/bin/linux/debian bullseye-cran40/'
@@ -14,8 +16,14 @@ VM and latest R and initial packages
     - sudo apt install r-base r-base-dev
     - sudo apt update
     - sudo apt upgrade
-    
- - Caso não tenha muita memoria, aumente o swap:
+   
+     - OBS: Se precisar remover o R anterior (se estiver instalado!): 
+      - sudo apt-get purge r-base* r-recommended r-cran-*
+      - sudo apt autoremove
+      
+ ===============================================================
+ OBS: Caso não tenha muita memoria, aumente o swap:
+ ===============================================================
  
  cd /
 sudo dd if=/dev/zero of=swapfile bs=1M count=3000
@@ -25,18 +33,10 @@ sudo vi etc/fstab e adicione a linha:
 /swapfile none swap sw 0 0
 
 cat /proc/meminfo
-    
-    - OBS: Se precisar remover o R anterior (se estiver instalado!): 
-      - sudo apt-get purge r-base* r-recommended r-cran-*
-      - sudo apt autoremove
-    
-- Instalar pacotes R (renv) ( sudo Rscript -e "install.packages(\"renv\")" )
-- Baixar Shiny-Server (wget https://download3.rstudio.org/ubuntu-18.04/x86_64/shiny-server-1.5.20.1002-amd64.deb)
-- Instalar Shiny-Server (sudo gdebi shiny-server-1.5.20.1002-amd64.deb)
-- sudo chmod 777 -R /srv/shiny-server/
-- Adicionar para iniciar automaticamente (sudo systemctl enable shiny-server)
-
- **** IMPORTANTE para instalar o arrow !!!!
+ 
+=================================================================
+Instalacao das libs do Apache Arrow
+=================================================================
 
 sudo apt update
 sudo apt install -y -V ca-certificates lsb-release wget
@@ -59,6 +59,30 @@ Entre no R com o SUDO (sudo R) e digite:
 
 Sys.setenv("NOT_CRAN" = "true", "ARROW_R_DEV" = TRUE)
 install.packages("arrow", quit=FALSE, verbose=TRUE)
+
+Confirme com o arrow::arrow_info() se a opcção DATASET está ativada, senão, use o arrow::install_arrow()
+
+==================================================================
+RENV
+==================================================================
+- sudo mkdir /opt/RENV_ROOT_CACHE
+- sudo chmod -R 666 /opt/RENV_ROOT_CACHE
+- Instalar pacotes R (renv) ( sudo Rscript -e "install.packages(\"renv\")" )
+- Crie um diretorio de teste (i.e mkdir ~/teste), e de dentro deste diretorio entre no R e defina a variável de ambiente para um local a ser compartilhado 
+(Sys.setenv("RENV_PATHS_ROOT" = "/opt/RENV_ROOT")
+(Sys.setenv("RENV_PATHS_CACHE" = "/opt/RENV_ROOT_CACHE")
+
+- Ainda dentro do R digite renv::init() e reinicie o R
+
+==================================================================
+Instalar o Shiny Server
+==================================================================
+- Baixar Shiny-Server (wget https://download3.rstudio.org/ubuntu-18.04/x86_64/shiny-server-1.5.20.1002-amd64.deb)
+- Instalar Shiny-Server (sudo gdebi shiny-server-1.5.20.1002-amd64.deb)
+- sudo chmod 777 -R /srv/shiny-server/
+- Adicionar para iniciar automaticamente (sudo systemctl enable shiny-server)
+
+
 
 ##########################################
 Setup extra Disk (if needed)
