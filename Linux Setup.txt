@@ -301,3 +301,11 @@ instalar o renv pro R do susuario shiny
 Sys.setenv("ARROW_R_DEV"=TRUE)
 renv::restore (sem activate!!!!)
 
+##########################################
+PostgreSQL
+##########################################
+- Seguir delathes aqui:
+https://cloud.google.com/community/tutorials/setting-up-postgres
+- Ative o CREATE EXTENSION "uuid-ossp"; se for usar uuid
+
+
