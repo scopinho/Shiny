@@ -6,7 +6,7 @@ VM and latest R and initial packages
 - Adicionar regra firewall porta TCP 3838
 - sudo apt update
 - sudo apt upgrade
-- Instalar pacotes Debian (sudo apt-get install libcurl4-openssl-dev libfontconfig1-dev libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev libxml2-dev libsodium-dev gdebi-core libv8-dev cmake wget git)
+- Instalar pacotes Debian (sudo apt-get install libcurl4-openssl-dev libfontconfig1-dev libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev libxml2-dev libsodium-dev gdebi-core libv8-dev libcairo2-dev libxt-dev cmake wget git )
 
 -Instalar o R 
     - sudo apt install dirmngr gnupg apt-transport-https ca-certificates software-properties-common
