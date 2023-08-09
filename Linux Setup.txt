@@ -190,46 +190,25 @@ map $http_upgrade $connection_upgrade {
  server {
     listen 80;
 
+    server_name dash2.techforg.com;
 
-    location /rstudio/ {
-      rewrite ^/rstudio/(.*)$ /$1 break;
-      proxy_pass http://localhost:8787;
-      proxy_redirect http://localhost:8787/ $scheme://$host/rstudio/;
-      proxy_http_version 1.1;
-      proxy_set_header Upgrade $http_upgrade;
-      proxy_set_header Connection $connection_upgrade;
-      proxy_read_timeout 20d;
-      auth_basic "Username and Password are required"; 
-      auth_basic_user_file /etc/nginx/.htpasswd;
-    }
+location / {
+        root /var/www/html;
+        try_files $uri $uri/ =404;
+}
 
 
+rewrite ^/shiny_app$ $scheme://$http_host/shiny_app/ permanent;
 
-    location /shiny/ {
-      rewrite ^/shiny/(.*)$ /$1 break;
-      proxy_pass http://127.0.0.1:3838;
-      proxy_redirect http://localhost:3838/ $scheme://$host/shiny/;
+    location /shiny_app/ {
+      proxy_pass http://127.0.0.1:3838/shiny_app/;
+      proxy_redirect http://localhost:3838/bepex $scheme://$host/shiny_app/;
       proxy_http_version 1.1;
       proxy_set_header Upgrade $http_upgrade;
       proxy_set_header Connection $connection_upgrade;
       proxy_read_timeout 20d;
       proxy_buffering off;
-      auth_basic "Username and Password are required"; 
-      auth_basic_user_file /etc/nginx/.htpasswd;
     }
-    
-    location /shiny-admin/ {
-      rewrite ^/shiny-admin/(.*)$ /$1 break;
-      proxy_pass http://localhost:4151;
-      proxy_redirect http://localhost:4151/ $scheme://$host/shiny-admin/;
-      proxy_http_version 1.1;
-      proxy_set_header Upgrade $http_upgrade;
-      proxy_set_header Connection $connection_upgrade;
-      proxy_read_timeout 20d;
-      proxy_buffering off;
-      auth_basic "Username and Password are required"; 
-      auth_basic_user_file /etc/nginx/.htpasswd;
-    }    
   } 
  
 Comentar todas as linhas do arquivo:
@@ -263,6 +242,62 @@ entre no R e dê um renv:init() e reinicie a sessao do R
 Instale o pacote shiny e crie um app de teste 
  
  *** FROM: https://www.simoncoulombe.com/2018/05/protected_free_shiny/
+
+###########################################
+SSL
+###########################################
+
+NOTE: Replace dash02 for your servername and shiny_app for your app name
+
+Get SSL certificates (i.e Certbot)
+ sudo certbot certonly --webroot -w /var/www/html -d dash02.techforg.com
+ add to crontab sudo crontab -e 
+0 0 * * * certbot renew 
+
+-Add the server block in the /etc/nginx/nginx.conf
+
+
+server {
+
+listen 443 ssl;
+server_name dash02.techforg.com;
+
+ssl_session_timeout 5m;
+ssl_protocols TLSv1.2;
+ssl_ciphers HIGH:!aNULL:!MD5;
+
+ssl_certificate /etc/letsencrypt/live/dash02.techforg.com/fullchain.pem;
+ssl_certificate_key /etc/letsencrypt/live/dash02.techforg.com/privkey.pem;
+
+   location / {
+
+        root /var/www/html;
+        try_files $uri $uri/ =404;
+
+        }
+
+        rewrite ^/shiny_app$ $scheme://$http_host/shiny_app/ permanent;
+
+location /shiny_app/ {
+
+    proxy_set_header    Host $host;
+    proxy_set_header    X-Real-IP $remote_addr;
+    proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header    X-Forwarded-Proto $scheme;
+    proxy_read_timeout  20d;
+    proxy_buffering off;
+    
+    proxy_pass http://127.0.0.1:3838/shiny_app/;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection $connection_upgrade;
+    proxy_http_version 1.1;
+      
+    proxy_redirect http://localhost:3838/shiny_app $scheme://$host/shiny_app/;
+
+}
+
+
+}
  
 
 ##########################################
